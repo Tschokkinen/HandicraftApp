@@ -30,10 +30,12 @@ namespace HandicraftApp
                 }
                 else if (input == "1")
                 {
+                    Console.WriteLine();
                     Crochet.CrochetSelection();
                 }
                 else if (input == "2")
                 {
+                    Console.WriteLine();
                     continue;
                 }
                 else

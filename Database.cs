@@ -81,10 +81,12 @@ public class Database
                         switch (tableName)
                         {
                             case "crochetHooks": //Cases for INT, VARCHAR tables.
-                                Console.WriteLine($"Koko: {reader["size"]}\t Materiaali: {reader["material"]}");
+                                Console.WriteLine($"Koko: {reader["size"]} / Materiaali: {reader["material"]}");
+                                Console.WriteLine("- - - - - -");
                                 break;
                             case "crochetThreads": //Cases for INT, VARCHAR, VARCHAR tables.
-                                Console.WriteLine($"Koko: {reader["size"]}\t Materiaali: {reader["material"]}\t Väri: {reader["colour"]}");
+                                Console.WriteLine($"Koko: {reader["size"]} / Materiaali: {reader["material"]} / Väri: {reader["colour"]}");
+                                Console.WriteLine("- - - - - -");
                                 break;
                         }
                     }

@@ -29,22 +29,30 @@ namespace HandicraftApp
 
                 if (selection == "1")
                 {
+                    Console.WriteLine();
                     GetCrochetData("crochetHooks");
+                    Console.WriteLine();
                     continue;
                 }
                 else if (selection == "2")
                 {
+                    Console.WriteLine();
                     GetCrochetData("crochetThreads");
+                    Console.WriteLine();
                     continue;
                 }
                 else if (selection == "3")
                 {
+                    Console.WriteLine();
                     AddCrochetHook();
+                    Console.WriteLine();
                     continue;
                 }
                 else if (selection == "4")
                 {
+                    Console.WriteLine();
                     AddCrochetThread();
+                    Console.WriteLine();
                     continue;
                 }
                 else if (selection.ToLower() == "x")
@@ -52,7 +60,7 @@ namespace HandicraftApp
                     break;
                 }
             }
-            Console.WriteLine("\n");
+            Console.WriteLine();
         } 
 
         private static void GetCrochetData(string selection)
@@ -67,13 +75,30 @@ namespace HandicraftApp
 
         private static void AddCrochetHook ()
         {
+            int size; //Size of the hook.
+            string material; //Hook material.
+
             //Get crochet hook size and material from user.
-            Console.WriteLine("Virkkuukoukun koko: ");
-            string size = Console.ReadLine();
-            Console.WriteLine("Virkkuukoukun materiaali: ");
-            string material = Console.ReadLine();
-            
-            CrochetHook current = new CrochetHook(Int16.Parse(size), material);
+            while (true)
+            {
+                Console.WriteLine("Virkkuukoukun koko: ");
+                string sizeStr = Console.ReadLine();
+                bool isNumber = int.TryParse(sizeStr, out size);
+
+                if (isNumber) //Check if user entered a number.
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("\nAnna numeraali.\n");
+                }
+            }
+
+            Console.WriteLine("\nVirkkuukoukun materiaali: ");
+            material = Console.ReadLine();
+
+            CrochetHook current = new CrochetHook(size, material);
 
             string tableEntry = $"INSERT INTO crochetHooks (size, material) values ({current.Size}, '{current.Material}')";
             Database.AddTableEntry(tableEntry);
@@ -81,15 +106,33 @@ namespace HandicraftApp
 
         private static void AddCrochetThread ()
         {
+            int size;
+            string material;
+            string colour;
+
             //Get crochet thread size and material and colour from user.
-            Console.WriteLine("Virkkuulangan koko: ");
-            string size = Console.ReadLine();
-            Console.WriteLine("Virkkuulangan materiaali: ");
-            string material = Console.ReadLine();
-            Console.WriteLine("Virkkuulangan väri: ");
-            string colour = Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Virkkuulangan koko: ");
+                string sizeStr = Console.ReadLine();
+                bool isNumber = int.TryParse(sizeStr, out size);
+
+                if (isNumber) //Check if user entered a number.
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("\nAnna numeraali.\n");
+                }
+            }
             
-            Thread current = new Thread(Int16.Parse(size), material, colour);
+            Console.WriteLine("Virkkuulangan materiaali: ");
+            material = Console.ReadLine();
+            Console.WriteLine("Virkkuulangan väri: ");
+            colour = Console.ReadLine();
+            
+            Thread current = new Thread(size, material, colour);
 
             string tableEntry = $"INSERT INTO crochetThreads (size, material, colour) values ({current.Size}, '{current.Material}', '{current.Colour}')";
             Database.AddTableEntry(tableEntry);
