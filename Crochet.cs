@@ -23,20 +23,21 @@ namespace HandicraftApp
                 Console.WriteLine("2 - Näytä virkkuulangat");
                 Console.WriteLine("3 - Lisää virkkuukoukku");
                 Console.WriteLine("4 - Lisää virkkuulanka");
+                Console.WriteLine("5 - Poista tieto");
                 Console.WriteLine("X - Palaa päävalikkoon");
 
                 string selection = Console.ReadLine();
 
                 if (selection == "1")
                 {
-                    Console.WriteLine();
+                    Console.WriteLine("\nVirkkuukoukut:");
                     GetCrochetData("crochetHooks");
                     Console.WriteLine();
                     continue;
                 }
                 else if (selection == "2")
                 {
-                    Console.WriteLine();
+                    Console.WriteLine("\nVirkkuulangat:");
                     GetCrochetData("crochetThreads");
                     Console.WriteLine();
                     continue;
@@ -52,6 +53,13 @@ namespace HandicraftApp
                 {
                     Console.WriteLine();
                     AddCrochetThread();
+                    Console.WriteLine();
+                    continue;
+                }
+                else if (selection == "5")
+                {
+                    Console.WriteLine();
+                    DeleteEntry();
                     Console.WriteLine();
                     continue;
                 }
@@ -75,67 +83,66 @@ namespace HandicraftApp
 
         private static void AddCrochetHook ()
         {
-            int size; //Size of the hook.
-            string material; //Hook material.
-
-            //Get crochet hook size and material from user.
-            while (true)
-            {
-                Console.WriteLine("Virkkuukoukun koko: ");
-                string sizeStr = Console.ReadLine();
-                bool isNumber = int.TryParse(sizeStr, out size);
-
-                if (isNumber) //Check if user entered a number.
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("\nAnna numeraali.\n");
-                }
-            }
-
-            Console.WriteLine("\nVirkkuukoukun materiaali: ");
-            material = Console.ReadLine();
+            //Get id.
+            string id = CollectData.GenerateRandomId();
+            //Get size.
+            int size = CollectData.AskForSize("Virkkuukoukun koko: ");
+            //Get material.
+            string material = CollectData.AskForMaterial("Virkkuukoukun materiaali: ");
 
             CrochetHook current = new CrochetHook(size, material);
 
-            string tableEntry = $"INSERT INTO crochetHooks (size, material) values ({current.Size}, '{current.Material}')";
+            string tableEntry = $"INSERT INTO crochetHooks (id, size, material) values ('{id}', {current.Size}, '{current.Material}')";
             Database.AddTableEntry(tableEntry);
         }
 
         private static void AddCrochetThread ()
         {
-            int size;
-            string material;
-            string colour;
-
-            //Get crochet thread size and material and colour from user.
-            while (true)
-            {
-                Console.WriteLine("Virkkuulangan koko: ");
-                string sizeStr = Console.ReadLine();
-                bool isNumber = int.TryParse(sizeStr, out size);
-
-                if (isNumber) //Check if user entered a number.
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("\nAnna numeraali.\n");
-                }
-            }
-            
-            Console.WriteLine("Virkkuulangan materiaali: ");
-            material = Console.ReadLine();
-            Console.WriteLine("Virkkuulangan väri: ");
-            colour = Console.ReadLine();
+            //Get id.
+            string id = CollectData.GenerateRandomId();
+            //Get size.
+            int size = CollectData.AskForSize("Virkkuulangan koko: ");
+            //Get material
+            string material = CollectData.AskForMaterial("Virkkuulangan materiaali: ");
+            //Get colour. 
+            string colour = CollectData.AskForColour("Virkkuulangan väri: ");
             
             Thread current = new Thread(size, material, colour);
 
-            string tableEntry = $"INSERT INTO crochetThreads (size, material, colour) values ({current.Size}, '{current.Material}', '{current.Colour}')";
+            string tableEntry = $"INSERT INTO crochetThreads (id, size, material, colour) values ('{id}', {current.Size}, '{current.Material}', '{current.Colour}')";
             Database.AddTableEntry(tableEntry);
+        }
+
+        private static void DeleteEntry()
+        {
+            string tableName;
+            string id;
+
+            //Get table name.
+            while (true)
+            {
+                Console.WriteLine("Minkä tiedon haluat poistaa: ");
+                Console.WriteLine("1 - Poista virkkuukoukku");
+                Console.WriteLine("2 - POista virkkuulanka");
+                string input = Console.ReadLine();
+
+                if (input == "1")
+                {
+                    tableName = "crochetHooks";
+                    break;
+                }
+                else if (input == "2")
+                {
+                    tableName = "crochetThreads";
+                    break;
+                }
+            }
+
+            //Get item id.
+            Console.WriteLine("Anna poistettavan tiedon tunniste: ");
+            id = Console.ReadLine();
+
+            Database.RemoveTableData(tableName, id);
         }        
     }
 }
