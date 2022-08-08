@@ -11,6 +11,8 @@ public class Database
         var tableNames = new List<string>();
         tableNames.Add("crochetHooks");
         tableNames.Add("crochetThreads");
+        tableNames.Add("misc");
+        tableNames.Add("sewingFabrics");
 
         using (SQLiteConnection connection = new SQLiteConnection("Data Source=database.db"))
         {
@@ -19,6 +21,8 @@ public class Database
             foreach (string tableName in tableNames)
             {
                 string query = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tableName}'";
+                string tableData = "";
+
                 using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
                 {
                     using (SQLiteDataReader result = cmd.ExecuteReader())
@@ -28,12 +32,20 @@ public class Database
                         {
                             switch (tableName)
                             {
-                                case "crochetHooks": //Cases for INT, VARCHAR tables.
-                                    string tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, size INT, material VARCHAR(20))";
+                                case "sewingFabrics": 
+                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, mainType VARCHAR(20), subType VARCHAR(20), width REAL, height REAL)";
                                     CreateTable(tableData, connection);
                                     break;
-                                case "crochetThreads": //Cases for INT, VARCHAR, VARCHAR tables.
+                                case "crochetHooks": 
+                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, size INT, material VARCHAR(20))";
+                                    CreateTable(tableData, connection);
+                                    break;
+                                case "crochetThreads": 
                                     tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, size INT, material VARCHAR(20), colour VARCHAR(20))";
+                                    CreateTable(tableData, connection);
+                                    break;
+                                case "misc": 
+                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, name VARCHAR(20), optionalInfo VARCHAR(20))";
                                     CreateTable(tableData, connection);
                                     break;
                             }
@@ -65,7 +77,7 @@ public class Database
         }
     }
 
-    public static void GetTableData (string query, string tableName)
+    public static void GetTableData (string tableName, string query)
     {
         using (SQLiteConnection connection = new SQLiteConnection("Data Source=database.db"))
         {
@@ -80,13 +92,24 @@ public class Database
                     {
                         switch (tableName)
                         {
-                            case "crochetHooks": //Cases for INT, VARCHAR tables.
+                            case "sewingFabrics":
+                                Console.WriteLine($"Tunniste: {reader["id"]} / Kankaan luokka: {reader["mainType"]} / Alaluokka: {reader["subType"]} / Koko: {reader["width"]}cm {reader["height"]}cm");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            case "crochetHooks": 
                                 Console.WriteLine($"Tunniste: {reader["id"]} / Koko: {reader["size"]} / Materiaali: {reader["material"]}");
                                 Console.WriteLine("- - - - - -");
                                 break;
-                            case "crochetThreads": //Cases for INT, VARCHAR, VARCHAR tables.
+                            case "crochetThreads": 
                                 Console.WriteLine($"Tunniste: {reader["id"]} / Koko: {reader["size"]} / Materiaali: {reader["material"]} / Väri: {reader["colour"]}");
                                 Console.WriteLine("- - - - - -");
+                                break;
+                            case "misc":
+                                Console.WriteLine($"Tunniste: {reader["id"]} / Nimi: {reader["name"]} / Lisätietoja: {reader["optionalInfo"]}");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            default:
+                            Console.WriteLine("Tietoja ei löytynyt.");
                                 break;
                         }
                     }
@@ -102,6 +125,7 @@ public class Database
             connection.Open();
 
             string query = $"DELETE FROM {tableName} WHERE id = '{id}'";
+
             using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
             {
                 cmd.ExecuteNonQuery();
@@ -114,33 +138,30 @@ public class Database
         }
     }
 
-
-/*
-    public static bool CheckForColumn (string newId)
+    public static bool CheckForColumn (string generatedId, string tableName)
     {
         using (SQLiteConnection connection = new SQLiteConnection("Data Source=database.db"))
         {
             connection.Open();
 
-            string query = $"SELECT {newId} FROM sqlite_master WHERE type='column'";
-
+            string query = $"SELECT 1 FROM {tableName} WHERE id='{generatedId}'";
+   
             using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
             {
-                using (SQLiteDataReader result = cmd.ExecuteReader())
+                using(SQLiteDataReader result = cmd.ExecuteReader())
                 {
-                    if (result.HasRows)
+                    if(result.HasRows)
                     {
-                        Console.WriteLine("Has ROws");
-                        return true;
+                        //Console.WriteLine("ID does exist");
+                        return false;
                     }
                     else
                     {
-                        Console.WriteLine("Doesn't have rows.");
-                        return false;
+                        //Console.WriteLine("ID doesn't exist.");
+                        return true;
                     }
                 }
             }
         }
     }
-    */
 }

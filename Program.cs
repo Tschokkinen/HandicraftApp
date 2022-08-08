@@ -9,8 +9,7 @@ namespace HandicraftApp
         {
             bool keepRunning = true; //Keeps the program running.
             Database.CreateDatabase(); //Check database and create tables if neccessary.
-            Crochet.InitializeDict(); //Initialize Crochet dictionary.
-
+           
             Console.WriteLine("Tervetuloa käyttämään 'Käsityöhässäkkä-sovellusta'\n");
 
             do
@@ -18,7 +17,8 @@ namespace HandicraftApp
                 //Select action.
                 Console.WriteLine("Valitse toiminto: ");
                 Console.WriteLine("1 - Virkkaus"); //Crochet materials
-                Console.WriteLine("2 - Sekalaiset"); //Miscellaneous materials (scissors etc.)
+                Console.WriteLine("2 - Ompelu"); //Sewing materials
+                Console.WriteLine("3 - Sekalaiset"); //Miscellaneous materials (scissors etc.)
                 Console.WriteLine("X - Lopeta sovellus"); //Quit program
 
                 string input = Console.ReadLine();
@@ -36,7 +36,12 @@ namespace HandicraftApp
                 else if (input == "2")
                 {
                     Console.WriteLine();
-                    continue;
+                    Sewing.SewingSelection();
+                }
+                else if (input == "3")
+                {
+                    Console.WriteLine();
+                    Misc.MiscSelection();
                 }
                 else
                 {

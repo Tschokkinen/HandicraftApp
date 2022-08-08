@@ -2,7 +2,7 @@ using System;
 
 public class CollectData
 {
-    public static int AskForSize (string question)
+    public static int AskForInt (string question)
     {
         int size; 
 
@@ -23,87 +23,107 @@ public class CollectData
         }
     }
 
-    public static string AskForMaterial (string question)
+    public static double AskForDouble (string question)
     {
-        //Display proper question and format input
-        Console.WriteLine(question);
-        string input = Console.ReadLine();
-        return char.ToUpper(input[0]) + input.Substring(1).ToLower();
-    }
-
-    public static string AskForColour (string question)
-    {
-        //Display proper question and format input
-        Console.WriteLine(question);
-        string input = Console.ReadLine();
-        return char.ToUpper(input[0]) + input.Substring(1).ToLower();
-    }
-
-    public static string GenerateRandomId()
-    {
-        // Creating object of random class
-        Random rand = new Random();
-  
-        // Choosing the size of string
-        // Using Next() string
-        int stringlen = rand.Next(4, 4);
-        int randValue;
-        string str = "";
-            
-        char letter;
-        
-        for (int i = 0; i < stringlen; i++)
-        {   
-  
-            // Generating a random number.
-            randValue = rand.Next(0, 26);
-  
-            // Generating random character by converting
-            // the random number into character.
-            letter = Convert.ToChar(randValue + 65);
-  
-            // Appending the letter to string.
-            str = str + letter;
-        }
-        return str;
-    }
-
-    /*
-    public static string GenerateRandomId()
-    {
-        string str;
+        double size; 
 
         while (true)
         {
-            str = "";
-            // Creating object of random class
+            Console.WriteLine(question);
+            string input = Console.ReadLine();
+            bool isNumber = double.TryParse(input, out size);
+
+            if (isNumber) //Check if user entered a number.
+            {
+                return size;
+            }
+            else
+            {
+                Console.WriteLine("\nAnna numeraali.\n");
+            }
+        }
+    }
+
+    public static string AskForString (string question)
+    {
+        //Display proper question and format input
+        Console.WriteLine(question);
+        string input = Console.ReadLine();
+
+        if(string.IsNullOrEmpty(input))
+        {
+            return "-";
+        }
+        else
+        {
+            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+        }
+    }
+
+    public static string AskForFabricMainType()
+        {
+            while(true)
+            {
+                Console.WriteLine("1 - Trikoo");
+                Console.WriteLine("2 - Kuvioitu");
+                Console.WriteLine("3 - Yksivärinen");
+                Console.WriteLine("4 - Puuvilla");
+                string input = Console.ReadLine();
+
+                if(input == "1")
+                {
+                    return "Trikoo";
+                }
+                else if(input == "2")
+                {
+                    return "Kuvioitu";
+                }
+                else if(input == "3")
+                {
+                    return "Yksivärinen";
+                }
+                else if(input == "4")
+                {
+                    return "Puuvilla";
+                }
+            }
+        }
+
+    public static string GenerateRandomId(string tableName)
+    {
+        string generatedId;
+
+        while (true)
+        {
+            //Create random
             Random rand = new Random();
   
-            // Choosing the size of string
-            // Using Next() string
-            int stringlen = rand.Next(4, 4);
+            //Size of the string
+            int stringLen = rand.Next(4, 4);
+
             int randValue;
+            generatedId = ""; 
             
             char letter;
-            for (int i = 0; i < stringlen; i++)
+            for (int i = 0; i < stringLen; i++)
             {   
   
-                // Generating a random number.
+                //Generate random number
                 randValue = rand.Next(0, 26);
   
-                // Generating random character by converting
-                // the random number into character.
+                //Convert random number into a character.
                 letter = Convert.ToChar(randValue + 65);
   
-                // Appending the letter to string.
-                str = str + letter;
+                //Append character to string.
+                generatedId = generatedId + letter;
             }
 
-            bool uniqueId = Database.CheckForColumn(str);
+            bool uniqueId = Database.CheckForColumn(generatedId, tableName);
 
             if(uniqueId) break;
         }
-        return str;
+        return generatedId;
     }
-    */
+    
+    
 }
