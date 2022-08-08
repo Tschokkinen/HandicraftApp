@@ -1,19 +1,10 @@
 using System;
-using System.Data.SQLite;
 using System.Collections.Generic;
 
 namespace HandicraftApp
 {
     public class Crochet
     {
-        private static Dictionary<string, string> queryDict = new Dictionary<string, string>();
-
-        public static void InitializeDict()
-        {
-            queryDict.Add("crochetHooks", "SELECT * FROM crochetHooks ORDER BY SIZE DESC");
-            queryDict.Add("crochetThreads", "SELECT * FROM crochetThreads ORDER BY SIZE DESC");
-        }
-
         public static void CrochetSelection ()
         {
             while (true)
@@ -71,24 +62,20 @@ namespace HandicraftApp
             Console.WriteLine();
         } 
 
-        private static void GetCrochetData(string selection)
+        private static void GetCrochetData(string tableName)
         {
-            if(queryDict.ContainsKey(selection))
-            {
-                string query = queryDict[selection];
-                string tableName = selection;
-                Database.GetTableData(query, tableName);
-            }
+            string query = $"SELECT * FROM {tableName} ORDER BY size DESC";
+            Database.GetTableData(tableName, query);
         }
 
         private static void AddCrochetHook ()
         {
             //Get id.
-            string id = CollectData.GenerateRandomId();
+            string id = CollectData.GenerateRandomId("crochetHooks");
             //Get size.
-            int size = CollectData.AskForSize("Virkkuukoukun koko: ");
+            int size = CollectData.AskForInt("Virkkuukoukun koko: ");
             //Get material.
-            string material = CollectData.AskForMaterial("Virkkuukoukun materiaali: ");
+            string material = CollectData.AskForString("Virkkuukoukun materiaali: ");
 
             CrochetHook current = new CrochetHook(size, material);
 
@@ -99,13 +86,13 @@ namespace HandicraftApp
         private static void AddCrochetThread ()
         {
             //Get id.
-            string id = CollectData.GenerateRandomId();
+            string id = CollectData.GenerateRandomId("crochetThreads");
             //Get size.
-            int size = CollectData.AskForSize("Virkkuulangan koko: ");
+            int size = CollectData.AskForInt("Virkkuulangan koko: ");
             //Get material
-            string material = CollectData.AskForMaterial("Virkkuulangan materiaali: ");
+            string material = CollectData.AskForString("Virkkuulangan materiaali: ");
             //Get colour. 
-            string colour = CollectData.AskForColour("Virkkuulangan väri: ");
+            string colour = CollectData.AskForString("Virkkuulangan väri: ");
             
             Thread current = new Thread(size, material, colour);
 
@@ -123,7 +110,7 @@ namespace HandicraftApp
             {
                 Console.WriteLine("Minkä tiedon haluat poistaa: ");
                 Console.WriteLine("1 - Poista virkkuukoukku");
-                Console.WriteLine("2 - POista virkkuulanka");
+                Console.WriteLine("2 - Poista virkkuulanka");
                 string input = Console.ReadLine();
 
                 if (input == "1")
