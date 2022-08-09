@@ -38,7 +38,34 @@ namespace HandicraftApp
 
         private static void Threads()
         {
+            while(true)
+            {
+                Console.WriteLine("Langat:");
+                Console.WriteLine("X - Palaa takaisin");
 
+                string selection = Console.WriteLine();
+
+                if(selection.ToLower() == "x")
+                {
+                    break;
+                }
+            }
+        }
+
+        private static void Patterns()
+        {
+            while(true)
+            {
+                Console.WriteLine("Kaavat:");
+                Console.WriteLine("X - Palaa takaisin");
+
+                string selection = Console.WriteLine();
+
+                if(selection.ToLower() == "x")
+                {
+                    break;
+                }
+            }
         }
 
         private static void SewingFabrics()
@@ -61,10 +88,25 @@ namespace HandicraftApp
                     SewingFabricsSubSelect("Trikoo");
                     continue;
                 }
+                else if(selection == "2")
+                {
+                    Console.WriteLine("Kuvioidut");
+                    SewingFabricsSubSelect("Kuvioitu");
+                }
+                else if(selection == "3")
+                {
+                    Console.WriteLine("Yksiväriset");
+                    SewingFabricsSubSelect("Yksiväriset");
+                }
+                else if(selection == "4")
+                {
+                    Console.WriteLine("Puuvilla");
+                    SewingFabricsSubSelect("Puuvilla");
+                }
                 else if(selection == "5")
                 {
                     Console.WriteLine("Lisää kangas: ");
-                    AddSewingFabric();
+                    SewingFabric sewingFabric = new SewingFabric();
                 }
                 else if(selection.ToLower() == "x")
                 {
@@ -82,7 +124,20 @@ namespace HandicraftApp
                     Console.WriteLine("Trikoo kankaat: ");
                     GetSewingFabricData(subCat);
                     break;
+                case "Kuvioitu":
+                    Console.WriteLine("Kuvioidut kankaat: ");
+                    GetSewingFabricData(subCat);
+                    break;
+                case "Yksiväriset":
+                    Console.WriteLine("Yksiväriset kankaat: ");
+                    GetSewingFabricData(subCat);
+                    break;
+                case "Puuvilla":
+                    Console.WriteLine("Puuvilla kankaat: ");
+                    GetSewingFabricData(subCat);
+                    break;
                 default:
+                    Console.WriteLine("Valintaa ei tunnistettu.");
                     break;
             }
         }
@@ -92,26 +147,6 @@ namespace HandicraftApp
             string tableName = "sewingFabrics";
             string query = $"SELECT * FROM {tableName} WHERE mainType = '{mainType}' ORDER BY subType DESC";
             Database.GetTableData(tableName, query);
-        }
-
-        private static void AddSewingFabric()
-        {
-            //Get id.
-            string id = CollectData.GenerateRandomId("sewingFabrics");
-            //Get fabric main type.
-            Console.WriteLine("Valitse kankaan luokka: ");
-            string mainType = CollectData.AskForFabricMainType();
-            //Get fabric subtype.
-            string subType = CollectData.AskForString("Materiaalin alaluokka: ");
-            //Get fabric size.
-            Console.WriteLine("Kangas palan koko: ");
-            double width = CollectData.AskForDouble("Leveys (cm): ");
-            double height = CollectData.AskForDouble("Korkeus (cm): ");
-
-            SewingFabric current = new SewingFabric(mainType, subType, width, height);
-
-            string tableEntry = $"INSERT INTO sewingFabrics (id, mainType, subType, width, height) values ('{id}', '{current.MainType}', '{current.SubType}', {current.Width}, {current.Height})";
-            Database.AddTableEntry(tableEntry);
         }
     }
 }

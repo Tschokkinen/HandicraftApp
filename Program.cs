@@ -30,17 +30,14 @@ namespace HandicraftApp
                 }
                 else if (input == "1")
                 {
-                    Console.WriteLine();
                     Crochet.CrochetSelection();
                 }
                 else if (input == "2")
                 {
-                    Console.WriteLine();
                     Sewing.SewingSelection();
                 }
                 else if (input == "3")
                 {
-                    Console.WriteLine();
                     Misc.MiscSelection();
                 }
                 else

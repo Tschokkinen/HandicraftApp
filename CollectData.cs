@@ -1,67 +1,78 @@
 using System;
 
-public class CollectData
+namespace HandicraftApp
 {
-    public static int AskForInt (string question)
+    //Class containing collection of functions related to data collection
+    //from user when new items are entered into the database.
+    public class CollectData
     {
-        int size; 
-
-        while (true)
+        //Used to get an int from user and to check if given value is int.
+        public static int AskForInt (string question)
         {
+            int value; 
+
+            while (true)
+            {
+                Console.WriteLine(question);
+                string input = Console.ReadLine();
+                bool isNumber = int.TryParse(input, out value);
+
+                if (isNumber) //Check if user entered a number.
+               {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine("\nAnna numeraali.\n");
+                }
+            }
+        }
+
+        //Used to get a double from user and to check if given value is double.
+        public static double AskForDouble (string question)
+        {
+            double value; 
+
+            while (true)
+            {
+                Console.WriteLine(question);
+                string input = Console.ReadLine();
+                bool isNumber = double.TryParse(input, out value);
+
+                if (isNumber) //Check if user entered a number.
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine("\nAnna numeraali.\n");
+                }
+            }
+        }
+
+        //Used to get a string from user and to assign a default value if input is empty.
+        public static string AskForString (string question)
+        {
+            //Display proper question and format input
             Console.WriteLine(question);
             string input = Console.ReadLine();
-            bool isNumber = int.TryParse(input, out size);
 
-            if (isNumber) //Check if user entered a number.
+            if(string.IsNullOrEmpty(input))
             {
-                return size;
+                return "-";
             }
             else
             {
-                Console.WriteLine("\nAnna numeraali.\n");
+                //Conver first letter of input to upper case.
+                return char.ToUpper(input[0]) + input.Substring(1).ToLower();
             }
-        }
-    }
+        }   
 
-    public static double AskForDouble (string question)
-    {
-        double size; 
-
-        while (true)
+        //Used to get fabric main type when adding new fabrics to database.
+        public static string AskForFabricMainType(string question)
         {
             Console.WriteLine(question);
-            string input = Console.ReadLine();
-            bool isNumber = double.TryParse(input, out size);
-
-            if (isNumber) //Check if user entered a number.
-            {
-                return size;
-            }
-            else
-            {
-                Console.WriteLine("\nAnna numeraali.\n");
-            }
-        }
-    }
-
-    public static string AskForString (string question)
-    {
-        //Display proper question and format input
-        Console.WriteLine(question);
-        string input = Console.ReadLine();
-
-        if(string.IsNullOrEmpty(input))
-        {
-            return "-";
-        }
-        else
-        {
-            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
-        }
-    }
-
-    public static string AskForFabricMainType()
-        {
+        
             while(true)
             {
                 Console.WriteLine("1 - Trikoo");
@@ -83,47 +94,48 @@ public class CollectData
                     return "Yksivärinen";
                 }
                 else if(input == "4")
-                {
+                   {
                     return "Puuvilla";
                 }
             }
         }
 
-    public static string GenerateRandomId(string tableName)
-    {
-        string generatedId;
-
-        while (true)
+        //Generates a random id for database items. Id is used for deleting items from database.
+        public static string GenerateRandomId(string tableName)
         {
-            //Create random
-            Random rand = new Random();
-  
-            //Size of the string
-            int stringLen = rand.Next(4, 4);
+            string generatedId;
 
-            int randValue;
-            generatedId = ""; 
-            
-            char letter;
-            for (int i = 0; i < stringLen; i++)
-            {   
+            while (true)
+            {
+                //Random used to generate ids of different length
+                Random rand = new Random();
   
-                //Generate random number
-                randValue = rand.Next(0, 26);
+                //Id character length. Curently fixed to four characters.
+                int stringLen = rand.Next(4, 4);
+
+                int randValue;
+                generatedId = ""; 
+                char letter;
+
+                for (int i = 0; i < stringLen; i++)
+                {   
   
-                //Convert random number into a character.
-                letter = Convert.ToChar(randValue + 65);
+                    //Generate random number
+                    randValue = rand.Next(0, 26);
   
-                //Append character to string.
-                generatedId = generatedId + letter;
+                    //Convert random number into a character.
+                    letter = Convert.ToChar(randValue + 65);
+  
+                    //Append character to string.
+                    generatedId = generatedId + letter;
+                }
+
+                //Check if the generated id is unique in the target table context.
+                bool uniqueId = Database.CheckForColumn(generatedId, tableName);
+
+                if(uniqueId) break; //If id does exist, assign id to a new entry.
             }
-
-            bool uniqueId = Database.CheckForColumn(generatedId, tableName);
-
-            if(uniqueId) break;
+            return generatedId;
         }
-        return generatedId;
     }
-    
-    
 }
