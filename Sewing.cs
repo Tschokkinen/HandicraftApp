@@ -2,6 +2,7 @@ using System;
 
 namespace HandicraftApp
 {
+    //Contains all menu selections for sewing.
     public class Sewing
     {
         public static void SewingSelection()
@@ -18,10 +19,12 @@ namespace HandicraftApp
 
                 if(selection == "1")
                 {
+                    Console.WriteLine();
                     continue;
                 }
                 else if(selection == "2")
                 {
+                    Console.WriteLine();
                     continue;
                 }
                 else if(selection == "3")
@@ -43,7 +46,7 @@ namespace HandicraftApp
                 Console.WriteLine("Langat:");
                 Console.WriteLine("X - Palaa takaisin");
 
-                string selection = Console.WriteLine();
+                string selection = Console.ReadLine();
 
                 if(selection.ToLower() == "x")
                 {
@@ -59,7 +62,7 @@ namespace HandicraftApp
                 Console.WriteLine("Kaavat:");
                 Console.WriteLine("X - Palaa takaisin");
 
-                string selection = Console.WriteLine();
+                string selection = Console.ReadLine();
 
                 if(selection.ToLower() == "x")
                 {
@@ -74,78 +77,82 @@ namespace HandicraftApp
             {
                 Console.WriteLine("Kankaat:");
                 Console.WriteLine("1 - Trikoo");
-                Console.WriteLine("2 - Kuvioidut");
-                Console.WriteLine("3 - Yksiväriset");
-                Console.WriteLine("4 - Puuvilla");
-                Console.WriteLine("5 - Lisää kangas");
+                Console.WriteLine("2 - Puuvilla");
+                Console.WriteLine("3 - Lisää uusi");
+                Console.WriteLine("4 - Poista tieto");
                 Console.WriteLine("X - Palaa takaisin");
 
                 string selection = Console.ReadLine();
 
                 if(selection == "1")
                 {
-                    Console.WriteLine("Trikoo");
+                    Console.WriteLine();
                     SewingFabricsSubSelect("Trikoo");
+                    Console.WriteLine();
                     continue;
                 }
                 else if(selection == "2")
                 {
-                    Console.WriteLine("Kuvioidut");
-                    SewingFabricsSubSelect("Kuvioitu");
+                    Console.WriteLine();
+                    SewingFabricsSubSelect("Puuvilla");
+                    Console.WriteLine();
+                    continue;
                 }
                 else if(selection == "3")
                 {
-                    Console.WriteLine("Yksiväriset");
-                    SewingFabricsSubSelect("Yksiväriset");
+                    Console.WriteLine("Lisää kangas: ");
+                    SewingFabric sewingFabric = new SewingFabric();
+                    Console.WriteLine();
                 }
                 else if(selection == "4")
                 {
-                    Console.WriteLine("Puuvilla");
-                    SewingFabricsSubSelect("Puuvilla");
-                }
-                else if(selection == "5")
-                {
-                    Console.WriteLine("Lisää kangas: ");
-                    SewingFabric sewingFabric = new SewingFabric();
+                    Console.WriteLine();
+                    Database.RemoveTableData("sewingFabrics");
+                    Console.WriteLine();
                 }
                 else if(selection.ToLower() == "x")
                 {
                     break;
                 }
             }
-
         }
 
-        private static void SewingFabricsSubSelect(string subCat)
+        private static void SewingFabricsSubSelect(string mainType)
         {
-            switch(subCat)
+            string subType;
+
+            while(true)
             {
-                case "Trikoo":
-                    Console.WriteLine("Trikoo kankaat: ");
-                    GetSewingFabricData(subCat);
-                    break;
-                case "Kuvioitu":
-                    Console.WriteLine("Kuvioidut kankaat: ");
-                    GetSewingFabricData(subCat);
-                    break;
-                case "Yksiväriset":
-                    Console.WriteLine("Yksiväriset kankaat: ");
-                    GetSewingFabricData(subCat);
-                    break;
-                case "Puuvilla":
-                    Console.WriteLine("Puuvilla kankaat: ");
-                    GetSewingFabricData(subCat);
-                    break;
-                default:
+                Console.WriteLine($"Alaluokat: {mainType}");
+                Console.WriteLine("1 - Yksiväriset");
+                Console.WriteLine("2 - Kuvioidut");
+                Console.WriteLine("X - Palaa takaisin");
+
+                string selection = Console.ReadLine();
+
+                if(selection == "1")
+                {
+                    subType = "Yksivärinen";
+                    GetSewingFabricData(mainType, subType);
+                    continue;
+                }
+                else if(selection == "2")
+                {
+                    subType = "Kuvioitu";
+                    GetSewingFabricData(mainType, subType);
+                }
+                else if(selection.ToLower() == "x")
+                {
                     Console.WriteLine("Valintaa ei tunnistettu.");
                     break;
+                }
             }
         }
 
-        private static void GetSewingFabricData(string mainType)
+        private static void GetSewingFabricData(string mainType, string subType)
         {
             string tableName = "sewingFabrics";
-            string query = $"SELECT * FROM {tableName} WHERE mainType = '{mainType}' ORDER BY subType DESC";
+            string query = $"SELECT * FROM {tableName} WHERE mainType = '{mainType}' AND subType = '{subType}' ORDER BY subType DESC";
             Database.GetTableData(tableName, query);
         }
     }

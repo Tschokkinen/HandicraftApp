@@ -1,101 +1,104 @@
 using System;
 
-public record SewingFabric
+namespace HandicraftApp
 {
-    private string id;
-    public string Id
+    public record SewingFabric
     {
-        get => id;
-        set
+        private string id;
+        public string Id
         {
-            id = value;
+            get => id;
+            set
+            {
+                id = value;
+            }
         }
-    }
 
-    private string tableName;
-    public string TableName
-    {
-        get => tableName;
-        set
+        private string tableName;
+        public string TableName
         {
-            tableName = value;
+            get => tableName;
+            set
+            {
+                tableName = value;
+            }
         }
-    }
 
-    private string mainType;
-    public string MainType
-    {
-        get => mainType;
-        set
+        private string mainType;
+        public string MainType
         {
-            mainType = value;
+            get => mainType;
+            set
+            {
+                mainType = value;
+            }
         }
-    }
 
-    private string subType;
-    public string SubType
-    {
-        get => subType;
-        set
+        private string subType;
+        public string SubType
         {
-            subType = value;
+            get => subType;
+           set
+            {
+                subType = value;
+            }
         }
-    }
 
-    private double width;
-    public double Width
-    {
-        get => width;
-        set
+        private double width;
+        public double Width
         {
-            width = value;
+            get => width;
+            set
+            {
+                width = value;
+            }
         }
-    }
 
-    private double height;
-    public double Height
-    {
-        get => height;
-        set
+        private double height;
+        public double Height
         {
-            height = value;
+            get => height;
+            set
+            {
+                height = value;
+            }
         }
-    }
     
-    public SewingFabric(string mainType, string subType, double width, double height)
-    {
-        this.mainType = mainType;
-        this.subType = subType;
-        this.width = width;
-        this.height = height;
-    }
+        public SewingFabric(string mainType, string subType, double width, double height)
+        {
+            this.mainType = mainType;
+            this.subType = subType;
+            this.width = width;
+            this.height = height;
+        }
 
-    public SewingFabric()
-    {
-        GetData();
-        CreateTableEntry();
-    }
+        public SewingFabric()
+        {
+            GetData();
+            CreateTableEntry();
+        }
 
-    //Gathers relevant data from the user when object is instantiated.
-    private void GetData()
-    {
-        this.tableName = "sewingFabrics";
-        //Get id.
-        this.id = CollectData.GenerateRandomId("sewingFabrics");
-        //Get fabric main type.
-        this.mainType = CollectData.AskForFabricMainType("Valitse kankaan luokka: ");
-        //Get fabric subtype.
-        this.subType = CollectData.AskForString("Materiaalin alaluokka: ");
-        //Get fabric size.
-        Console.WriteLine("Kangas palan koko: ");
-        this.width = CollectData.AskForDouble("Leveys (cm): ");
-        this.height = CollectData.AskForDouble("Korkeus (cm): ");
-    }
+        //Gathers relevant data from the user when object is instantiated.
+        private void GetData()
+        {
+            this.tableName = "sewingFabrics";
+            //Get id.
+            this.id = CollectData.GenerateRandomId("sewingFabrics");
+            //Get fabric main type.
+            this.mainType = CollectData.AskForFabricMainType("Valitse kankaan luokka: ");
+            //Get fabric subtype.
+            this.subType = CollectData.AskForFabricSubType("Materiaalin alaluokka: ");
+            //Get fabric size.
+            Console.WriteLine("Kangas palan koko: ");
+            this.width = CollectData.AskForDouble("Leveys (cm): ");
+            this.height = CollectData.AskForDouble("Korkeus (cm): ");
+        }
 
-    //Creates a new table entry based on the data from GetData and passes it to the Database.
-    private void CreateTableEntry()
-    {
-        string tableEntry = $"INSERT INTO {this.tableName} (id, mainType, subType, width, height) values ('{this.Id}', '{this.MainType}', '{this.SubType}', {this.Width}, {this.Height})";
-        Database.AddTableEntry(tableEntry);
+        //Creates a new table entry based on the data from GetData and passes it to the Database.
+        private void CreateTableEntry()
+        {
+            string tableEntry = $"INSERT INTO {this.tableName} (id, mainType, subType, width, height) values ('{this.Id}', '{this.MainType}', '{this.SubType}', {this.Width}, {this.Height})";
+            Database.AddTableEntry(tableEntry);
+        }
     }
-}
+}   

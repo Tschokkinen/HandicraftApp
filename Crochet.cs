@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace HandicraftApp
 {
+    //Contains all menu selections for crochet.
     public class Crochet
     {
         private static string query;
@@ -99,12 +100,12 @@ namespace HandicraftApp
                 else if(selection == "2")
                 {
                     Console.WriteLine();
-                    Thread thread = new Thread();
+                    CrochetThread crochetThread = new CrochetThread();
                     continue;
                 }
                 else if(selection == "3")
                 {
-                    Database.RemoveTableData("crochetThread");
+                    Database.RemoveTableData("crochetThreads");
                     continue;
                 }
                 else if(selection.ToLower() == "x")

@@ -76,9 +76,7 @@ namespace HandicraftApp
             while(true)
             {
                 Console.WriteLine("1 - Trikoo");
-                Console.WriteLine("2 - Kuvioitu");
-                Console.WriteLine("3 - Yksivärinen");
-                Console.WriteLine("4 - Puuvilla");
+                Console.WriteLine("2 - Puuvilla");
                 string input = Console.ReadLine();
 
                 if(input == "1")
@@ -87,15 +85,29 @@ namespace HandicraftApp
                 }
                 else if(input == "2")
                 {
-                    return "Kuvioitu";
+                    return "Puuvilla";
                 }
-                else if(input == "3")
+            }
+        }
+
+        //Used to get fabric main type when adding new fabrics to database.
+        public static string AskForFabricSubType(string question)
+        {
+            Console.WriteLine(question);
+        
+            while(true)
+            {
+                Console.WriteLine("1 - Yksivärinen");
+                Console.WriteLine("2 - Kuvioitu");
+                string input = Console.ReadLine();
+
+                if(input == "1")
                 {
                     return "Yksivärinen";
                 }
-                else if(input == "4")
-                   {
-                    return "Puuvilla";
+                else if(input == "2")
+                {
+                    return "Kuvioitu";
                 }
             }
         }
