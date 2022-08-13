@@ -81,6 +81,7 @@ public class Database
     }
 
     //Gets table data and presents it according to the table columns.
+    //Used when showing data from database.
     public static void GetTableData (string tableName, string query)
     {
         using (SQLiteConnection connection = new SQLiteConnection("Data Source=database.db"))
@@ -97,7 +98,52 @@ public class Database
                         switch (tableName)
                         {
                             case "sewingFabrics":
-                                Console.WriteLine($"Tunniste: {reader["id"]} / Kankaan luokka: {reader["mainType"]} / Alaluokka: {reader["subType"]} / Koko: {reader["width"]}cm {reader["height"]}cm");
+                                Console.WriteLine($"Kankaan luokka: {reader["mainType"]} / Alaluokka: {reader["subType"]} / Koko: Leveys {reader["width"]}cm - Korkeus {reader["height"]}cm");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            case "crochetHooks": 
+                                Console.WriteLine($"Koko: {reader["size"]} / Materiaali: {reader["material"]}");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            case "crochetThreads": 
+                                Console.WriteLine($"Koko: {reader["size"]} / Materiaali: {reader["material"]} / Väri: {reader["colour"]}");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            case "misc":
+                                Console.WriteLine($"Nimi: {reader["name"]} / Lisätietoja: {reader["optionalInfo"]}");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            default:
+                            Console.WriteLine("Tietoja ei löytynyt.");
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Gets table data with ids and presents it according to the table columns.
+    //Used when removing an entry from database.
+    public static void GetTableDataWithId (string tableName)
+    {
+        using (SQLiteConnection connection = new SQLiteConnection("Data Source=database.db"))
+        {
+            connection.Open();
+
+            string query = $"SELECT * FROM {tableName}";
+
+            using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
+            {
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    //Print results from database.
+                    while(reader.Read())
+                    {
+                        switch (tableName)
+                        {
+                            case "sewingFabrics":
+                                Console.WriteLine($"Tunniste: {reader["id"]} / Kankaan luokka: {reader["mainType"]} / Alaluokka: {reader["subType"]} / Koko: Leveys {reader["width"]}cm - Korkeus {reader["height"]}cm");
                                 Console.WriteLine("- - - - - -");
                                 break;
                             case "crochetHooks": 
@@ -125,15 +171,17 @@ public class Database
     //Removes data from a given table based on the item id.
     public static void RemoveTableData(string tableName)
     {
+        GetTableDataWithId(tableName);
+
         //Get item id.
-        Console.WriteLine("Anna poistettavan tiedon tunniste: ");
+        Console.WriteLine("Anna poistettavan tiedon tunniste (kirjasin koolla ei ole väliä): ");
         string id = Console.ReadLine();
 
         using (SQLiteConnection connection = new SQLiteConnection("Data Source=database.db"))
         {
             connection.Open();
 
-            string query = $"DELETE FROM {tableName} WHERE id = '{id}'";
+            string query = $"DELETE FROM {tableName} WHERE id = '{id.ToUpper()}'";
 
             using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
             {
