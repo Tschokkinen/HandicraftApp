@@ -12,33 +12,33 @@ namespace HandicraftApp
         {
             while(true)
             {
-                Console.WriteLine("Sekalaiset");
-                Console.WriteLine("1 - Näytä sekalaiset");
-                Console.WriteLine("2 - Lisää uusi");
-                Console.WriteLine("3 - Poista tieto");
-                Console.WriteLine("X - Palaa päävalikkoon");
+                Console.WriteLine(MenuCommands.MiscTitle);
+                Console.WriteLine(MenuCommands.ShowEntries);
+                Console.WriteLine(MenuCommands.AddEntry);
+                Console.WriteLine(MenuCommands.DeleteEntry);
+                Console.WriteLine(MenuCommands.BackToMainMenu);
 
                 string selection = Console.ReadLine();
 
-                if(selection == "1")
+                if(selection.ToLower() == "s")
                 {
                     Console.WriteLine();
-                    query = $"SELECT * FROM {tableName} ORDER BY name DESC";;
+                    query = $"SELECT * FROM {tableName} ORDER BY name DESC";
                     Database.GetTableData(tableName, query);
                     Console.WriteLine();
                     continue;
                 }
-                else if(selection == "2")
+                else if(selection.ToLower() == "a")
                 {
                     Console.WriteLine();
                     MiscItem miscItem = new MiscItem();
                     Console.WriteLine();
                     continue;
                 }
-                else if(selection == "3")
+                else if(selection.ToLower() == "d")
                 {
                     Console.WriteLine();
-                    Database.RemoveTableData("misc");
+                    Database.RemoveTableData(tableName);
                     Console.WriteLine();
                     continue;
                 }

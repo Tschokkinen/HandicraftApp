@@ -2,28 +2,8 @@ using System;
 
 namespace HandicraftApp
 {
-    public record SewingFabric
+    public record SewingFabric : Identification
     {
-        private string id;
-        public string Id
-        {
-            get => id;
-            set
-            {
-                id = value;
-            }
-        }
-
-        private string tableName;
-        public string TableName
-        {
-            get => tableName;
-            set
-            {
-                tableName = value;
-            }
-        }
-
         private string mainType;
         public string MainType
         {
@@ -64,8 +44,10 @@ namespace HandicraftApp
             }
         }
     
-        public SewingFabric(string mainType, string subType, double width, double height)
+        public SewingFabric(string tableName, string id, string mainType, string subType, double width, double height)
         {
+            this.TableName = tableName;
+            this.Id = id;
             this.mainType = mainType;
             this.subType = subType;
             this.width = width;
@@ -79,11 +61,11 @@ namespace HandicraftApp
         }
 
         //Gathers relevant data from the user when object is instantiated.
-        private void GetData()
+        public override void GetData()
         {
-            this.tableName = "sewingFabrics";
+            this.TableName = "sewingFabrics";
             //Get id.
-            this.id = CollectData.GenerateRandomId("sewingFabrics");
+            this.Id = CollectData.GenerateRandomId("sewingFabrics");
             //Get fabric main type.
             this.mainType = CollectData.AskForFabricMainType("Valitse kankaan luokka: ");
             //Get fabric subtype.
@@ -95,9 +77,9 @@ namespace HandicraftApp
         }
 
         //Creates a new table entry based on the data from GetData and passes it to the Database.
-        private void CreateTableEntry()
+        public override void CreateTableEntry()
         {
-            string tableEntry = $"INSERT INTO {this.tableName} (id, mainType, subType, width, height) values ('{this.Id}', '{this.MainType}', '{this.SubType}', {this.Width}, {this.Height})";
+            string tableEntry = $"INSERT INTO {this.TableName} (id, mainType, subType, width, height) values ('{this.Id}', '{this.MainType}', '{this.SubType}', {this.Width}, {this.Height})";
             Database.AddTableEntry(tableEntry);
         }
     }

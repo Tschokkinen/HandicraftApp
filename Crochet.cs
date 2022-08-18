@@ -15,9 +15,9 @@ namespace HandicraftApp
             {
                 Console.WriteLine();
                 Console.WriteLine("Virkkaus");
-                Console.WriteLine("1 - Virkkuukoukut");
-                Console.WriteLine("2 - Virkkuulangat");
-                Console.WriteLine("X - Palaa päävalikkoon");
+                Console.WriteLine(MenuCommands.SelectCrochetHooks);
+                Console.WriteLine(MenuCommands.SelectCrochetThreads);
+                Console.WriteLine(MenuCommands.BackToMainMenu);
 
                 string selection = Console.ReadLine();
 
@@ -44,28 +44,28 @@ namespace HandicraftApp
             while (true)
             {
                 Console.WriteLine();
-                Console.WriteLine("Virkkuukoukut");
-                Console.WriteLine("1 - Näytä virkkuukoukut");
-                Console.WriteLine("2 - Lisää virkkuukoukku");
-                Console.WriteLine("3 - Poista tieto");
-                Console.WriteLine("X - Palaa virkkuun päävalikkoon");
+                Console.WriteLine(MenuCommands.CrochetHooksTitle);
+                Console.WriteLine(MenuCommands.ShowEntries);
+                Console.WriteLine(MenuCommands.AddEntry);
+                Console.WriteLine(MenuCommands.DeleteEntry);
+                Console.WriteLine(MenuCommands.BackToPrevious);
 
                 string selection = Console.ReadLine();
 
-                if(selection == "1")
+                if(selection.ToLower() == "s")
                 {
                     tableName = "crochetHooks";
                     query = $"SELECT * FROM {tableName} ORDER BY size DESC";
                     Database.GetTableData(tableName, query);
                     continue;
                 }
-                else if(selection == "2")
+                else if(selection.ToLower() == "a")
                 {
                     Console.WriteLine();
                     CrochetHook crochetHook = new CrochetHook();
                     continue;
                 }
-                else if(selection == "3")
+                else if(selection.ToLower() == "d")
                 {
                     Database.RemoveTableData("crochetHooks");
                     continue;
@@ -82,28 +82,29 @@ namespace HandicraftApp
             while (true)
             {
                 Console.WriteLine();
-                Console.WriteLine("Virkkuulangat");
-                Console.WriteLine("1 - Näytä virkkuulangat");
-                Console.WriteLine("2 - Lisää virkkuulanka");
-                Console.WriteLine("3 - Poista tieto");
-                Console.WriteLine("X - Palaa virkkuun päävalikkoon");
+                Console.WriteLine(MenuCommands.CrochetThreadsTitle);
+                Console.WriteLine(MenuCommands.ShowEntries);
+                Console.WriteLine(MenuCommands.AddEntry);
+                Console.WriteLine(MenuCommands.DeleteEntry);
+                Console.WriteLine(MenuCommands.BackToPrevious);
 
                 string selection = Console.ReadLine();
 
-                if(selection == "1")
+                if(selection.ToLower() == "s")
                 {
+                    Console.WriteLine();
                     tableName = "crochetThreads";
                     query = $"SELECT * FROM {tableName} ORDER BY size DESC";
                     Database.GetTableData(tableName, query);
                     continue;
                 }
-                else if(selection == "2")
+                else if(selection.ToLower() == "a")
                 {
                     Console.WriteLine();
                     CrochetThread crochetThread = new CrochetThread();
                     continue;
                 }
-                else if(selection == "3")
+                else if(selection.ToLower() == "d")
                 {
                     Database.RemoveTableData("crochetThreads");
                     continue;

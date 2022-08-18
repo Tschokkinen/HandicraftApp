@@ -14,6 +14,8 @@ public class Database
         tableNames.Add("crochetThreads");
         tableNames.Add("misc");
         tableNames.Add("sewingFabrics");
+        tableNames.Add("sewingThreads");
+        tableNames.Add("sewingPatterns");
 
         using (SQLiteConnection connection = new SQLiteConnection("Data Source=database.db"))
         {
@@ -33,8 +35,16 @@ public class Database
                         {
                             switch (tableName)
                             {
+                                case "sewingPatterns": 
+                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, patternModel VARCHAR(20), patternSizes VARCHAR(20), optionalInfo VARCHAR(20))";
+                                    CreateTable(tableData, connection);
+                                    break;
                                 case "sewingFabrics": 
                                     tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, mainType VARCHAR(20), subType VARCHAR(20), width REAL, height REAL)";
+                                    CreateTable(tableData, connection);
+                                    break;
+                                case "sewingThreads": 
+                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, colour VARCHAR(20), optionalInfo VARCHAR(20))";
                                     CreateTable(tableData, connection);
                                     break;
                                 case "crochetHooks": 
@@ -97,8 +107,16 @@ public class Database
                     {
                         switch (tableName)
                         {
+                            case "sewingPatterns":
+                                Console.WriteLine($"Kaavan malli: {reader["patternModel"]} / Kaavan koot: {reader["patternSizes"]} / Lisätietoja: {reader["optionalInfo"]}");
+                                Console.WriteLine("- - - - - -");
+                                break;
                             case "sewingFabrics":
                                 Console.WriteLine($"Kankaan luokka: {reader["mainType"]} / Alaluokka: {reader["subType"]} / Koko: Leveys {reader["width"]}cm - Korkeus {reader["height"]}cm");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            case "sewingThreads":
+                                Console.WriteLine($"Väri: {reader["colour"]} / Lisätietoja: {reader["optionalInfo"]}");
                                 Console.WriteLine("- - - - - -");
                                 break;
                             case "crochetHooks": 
@@ -142,8 +160,16 @@ public class Database
                     {
                         switch (tableName)
                         {
+                            case "sewingPatterns":
+                                Console.WriteLine($"Tunniste: {reader["id"]} / Kaavan malli: {reader["patternModel"]} / Kaavan koot: {reader["patternSizes"]} / Lisätietoja: {reader["optionalInfo"]}");
+                                Console.WriteLine("- - - - - -");
+                                break;
                             case "sewingFabrics":
                                 Console.WriteLine($"Tunniste: {reader["id"]} / Kankaan luokka: {reader["mainType"]} / Alaluokka: {reader["subType"]} / Koko: Leveys {reader["width"]}cm - Korkeus {reader["height"]}cm");
+                                Console.WriteLine("- - - - - -");
+                                break;
+                            case "sewingThreads":
+                                Console.WriteLine($"Tunniste: {reader["id"]} / Väri: {reader["colour"]} / Lisätietoja: {reader["optionalInfo"]}");
                                 Console.WriteLine("- - - - - -");
                                 break;
                             case "crochetHooks": 

@@ -1,28 +1,8 @@
 
 namespace HandicraftApp
 {
-    public record CrochetThread
+    public record CrochetThread : Identification
     {
-        private string id;
-        public string Id
-        {
-            get => id;
-            set
-            {
-                id = value;
-            }
-        }
-
-        private string tableName;
-        public string TableName
-        {
-            get => tableName;
-            set
-            {
-                tableName = value;
-            } 
-        }
-
         private int size;
         public int Size
         {
@@ -55,8 +35,8 @@ namespace HandicraftApp
 
         public CrochetThread (string tableName, string id, int size, string material, string colour)
         {
-            this.tableName = tableName;
-            this.id = id;
+            this.TableName = tableName;
+            this.Id = id;
             this.size = size;
             this.material = material;
             this.colour = colour;
@@ -68,11 +48,11 @@ namespace HandicraftApp
             CreateTableEntry();
         }
 
-        private void GetData()
+        public override void GetData()
         {
-            this.tableName = "crochetThreads";
+            this.TableName = "crochetThreads";
             //Get id.
-            this.id = CollectData.GenerateRandomId("crochetThreads");
+            this.Id = CollectData.GenerateRandomId("crochetThreads");
             //Get size.
             this.size = CollectData.AskForInt("Virkkuulangan koko: ");
             //Get material.
@@ -81,9 +61,9 @@ namespace HandicraftApp
             this.colour = CollectData.AskForString("Virkkuulangan väri: ");
         }
 
-        private void CreateTableEntry()
+        public override void CreateTableEntry()
         {
-            string tableEntry = $"INSERT INTO {this.tableName} (id, size, material, colour) values ('{this.Id}', {this.Size}, '{this.Material}', '{this.Colour}')";
+            string tableEntry = $"INSERT INTO {this.TableName} (id, size, material, colour) values ('{this.Id}', {this.Size}, '{this.Material}', '{this.Colour}')";
             Database.AddTableEntry(tableEntry);
         }
     }

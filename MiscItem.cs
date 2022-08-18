@@ -1,27 +1,7 @@
 namespace HandicraftApp
 {
-    public record MiscItem
+    public record MiscItem : Identification
     {
-        private string id;
-        public string Id
-        {
-            get => id;
-            set
-            {
-                id = value;
-            }
-        }
-
-        private string tableName;
-        public string TableName
-        {
-            get => tableName;
-            set
-            {
-                tableName = value;
-            }
-        }
-
         private string itemName;
         public string ItemName
         {
@@ -42,8 +22,10 @@ namespace HandicraftApp
             }
         }
 
-        public MiscItem (string itemName, string optionalInfo)
+        public MiscItem (string tableName, string id, string itemName, string optionalInfo)
         {
+            this.TableName = tableName;
+            this.Id = id;
             this.itemName = itemName;
             this.optionalInfo = optionalInfo;
         }
@@ -55,11 +37,11 @@ namespace HandicraftApp
         }
 
         //Gathers relevant data from the user when object is instantiated.
-        private void GetData()
+        public override void GetData()
         {
-            this.tableName = "misc";
+            this.TableName = "misc";
             //Get id.
-            this.id = CollectData.GenerateRandomId("misc");
+            this.Id = CollectData.GenerateRandomId("misc");
             //Get item name.
             this.itemName = CollectData.AskForString("Esineen nimi: ");
             //Get optional info.
@@ -67,7 +49,7 @@ namespace HandicraftApp
         }
 
         //Creates a new table entry based on the data from GetData and passes it to the Database.
-        private void CreateTableEntry()
+        public override void CreateTableEntry()
         {
             string tableEntry = $"INSERT INTO {this.TableName} (id, name, optionalInfo) values ('{this.Id}', '{this.ItemName}', '{this.OptionalInfo}')";
             Database.AddTableEntry(tableEntry);

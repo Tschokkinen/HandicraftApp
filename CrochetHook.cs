@@ -2,28 +2,8 @@ using System;
 
 namespace HandicraftApp
 {
-    public record CrochetHook 
+    public record CrochetHook : Identification
     {
-        private string id;
-        public string Id
-        {
-            get => id;
-            set
-            {
-                id = value;
-            }
-        }
-
-        private string tableName;
-        public string TableName
-        {
-            get => tableName;
-            set
-            {
-                tableName = value;
-            }
-        }
-
         private int size;
         public int Size
         {
@@ -46,8 +26,8 @@ namespace HandicraftApp
 
         public CrochetHook (string tableName, string id, int size, string material)
         {
-            this.tableName = tableName;
-            this.id = id;
+            this.TableName = tableName;
+            this.Id = id;
             this.size = size;
             this.material = material;
         }
@@ -59,11 +39,11 @@ namespace HandicraftApp
         }
 
         //Gathers relevant data from the user when object is instantiated.
-        private void GetData()
+        public override void GetData()
         {
-            this.tableName = "crochetHooks";
+            this.TableName = "crochetHooks";
             //Get id.
-            this.id = CollectData.GenerateRandomId("crochetHooks");
+            this.Id = CollectData.GenerateRandomId("crochetHooks");
             //Get size.
             this.size = CollectData.AskForInt("Virkkuukoukun koko: ");
             //Get material.
@@ -71,7 +51,7 @@ namespace HandicraftApp
         }
 
         //Creates a new table entry based on the data from GetData and passes it to the Database.
-        private void CreateTableEntry()
+        public override void CreateTableEntry()
         {
             string tableEntry = $"INSERT INTO {this.TableName} (id, size, material) values ('{this.Id}', {this.Size}, '{this.Material}')";
             Database.AddTableEntry(tableEntry);

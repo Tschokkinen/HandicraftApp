@@ -9,28 +9,69 @@ namespace HandicraftApp
         {
             while(true)
             {
-                Console.WriteLine("Ompelu");
-                Console.WriteLine("1 - Lankasävyt");
-                Console.WriteLine("2 - Kaavat");
-                Console.WriteLine("3 - Kankaat");
-                Console.WriteLine("X - Palaa päävalikkoon");
+                Console.WriteLine();
+                Console.WriteLine(MenuCommands.SewingTitle);
+                Console.WriteLine(MenuCommands.SelectSewingThreads);
+                Console.WriteLine(MenuCommands.SelectSewingPatterns);
+                Console.WriteLine(MenuCommands.SelectSewingFabrics);
+                Console.WriteLine(MenuCommands.BackToMainMenu);
 
                 string selection = Console.ReadLine();
 
                 if(selection == "1")
                 {
-                    Console.WriteLine();
+                    SewingThreads();
                     continue;
                 }
                 else if(selection == "2")
                 {
-                    Console.WriteLine();
+                    SewingPatterns();
                     continue;
                 }
                 else if(selection == "3")
                 {
                     SewingFabrics();
                     continue;
+                }
+                else if(selection.ToLower() == "x") //Back to main
+                {
+                    break;
+                }
+            }
+        }
+
+        private static void SewingThreads()
+        {
+            string tableName = "sewingThreads";
+
+            while(true)
+            {
+                Console.WriteLine();
+                Console.WriteLine(MenuCommands.SewingThreadsTitle);
+                Console.WriteLine(MenuCommands.ShowEntries);
+                Console.WriteLine(MenuCommands.AddEntry);
+                Console.WriteLine(MenuCommands.DeleteEntry);
+                Console.WriteLine(MenuCommands.BackToPrevious);
+
+                string selection = Console.ReadLine();
+
+                if(selection.ToLower() == "s") //Show entries
+                {
+                    Console.WriteLine();
+                    
+                    string query = $"SELECT * FROM {tableName} ORDER BY colour DESC";
+                    Database.GetTableData(tableName, query);
+                    continue;
+                }
+                else if(selection.ToLower() == "a") //Add entry
+                {
+                    Console.WriteLine();
+                    SewingThread sewingThread = new SewingThread();
+                    continue;
+                }
+                else if(selection.ToLower() == "d") //Delete entry
+                {
+                    Database.RemoveTableData(tableName);
                 }
                 else if(selection.ToLower() == "x")
                 {
@@ -39,32 +80,42 @@ namespace HandicraftApp
             }
         }
 
-        private static void Threads()
+        private static void SewingPatterns()
         {
+            string tableName = "sewingPatterns";
+
             while(true)
             {
-                Console.WriteLine("Langat:");
-                Console.WriteLine("X - Palaa takaisin");
+                Console.WriteLine();
+                Console.WriteLine(MenuCommands.SewingPatternsTitle);
+                Console.WriteLine(MenuCommands.ShowEntries);
+                Console.WriteLine(MenuCommands.AddEntry);
+                Console.WriteLine(MenuCommands.DeleteEntry);
+                Console.WriteLine(MenuCommands.BackToPrevious);
 
                 string selection = Console.ReadLine();
 
-                if(selection.ToLower() == "x")
+                if(selection.ToLower() == "s") //Show entries
                 {
-                    break;
+                    Console.WriteLine();
+                    string query = $"SELECT * FROM {tableName} ORDER BY patternModel DESC";
+                    Database.GetTableData(tableName, query);
+                    Console.WriteLine();
+                    continue;
                 }
-            }
-        }
-
-        private static void Patterns()
-        {
-            while(true)
-            {
-                Console.WriteLine("Kaavat:");
-                Console.WriteLine("X - Palaa takaisin");
-
-                string selection = Console.ReadLine();
-
-                if(selection.ToLower() == "x")
+                else if(selection.ToLower() == "a") //Add entry
+                {
+                    Console.WriteLine();
+                    SewingPattern sewingPattern = new SewingPattern();
+                    Console.WriteLine();
+                    continue;
+                }
+                else if(selection.ToLower() == "d") //Delete entry
+                {
+                    Console.WriteLine();
+                    Database.RemoveTableData(tableName);
+                }
+                else if(selection.ToLower() == "x") //Back to previous
                 {
                     break;
                 }
@@ -73,42 +124,64 @@ namespace HandicraftApp
 
         private static void SewingFabrics()
         {
+            string tableName = "sewingFabrics";
+
             while(true)
             {
-                Console.WriteLine("Kankaat:");
-                Console.WriteLine("1 - Trikoo");
-                Console.WriteLine("2 - Puuvilla");
-                Console.WriteLine("3 - Lisää uusi");
-                Console.WriteLine("4 - Poista tieto");
-                Console.WriteLine("X - Palaa takaisin");
+                Console.WriteLine();
+                Console.WriteLine(MenuCommands.SewingFabricsTitle);
+                Console.WriteLine(MenuCommands.ShowEntries);
+                Console.WriteLine(MenuCommands.AddEntry);
+                Console.WriteLine(MenuCommands.DeleteEntry);
+                Console.WriteLine(MenuCommands.BackToPrevious);
 
                 string selection = Console.ReadLine();
 
-                if(selection == "1")
+                if(selection.ToLower() == "s") //Leotard
                 {
-                    Console.WriteLine();
-                    SewingFabricsSubSelect("Trikoo");
-                    Console.WriteLine();
+                    SewingFabricsSelect();
                     continue;
                 }
-                else if(selection == "2")
-                {
-                    Console.WriteLine();
-                    SewingFabricsSubSelect("Puuvilla");
-                    Console.WriteLine();
-                    continue;
-                }
-                else if(selection == "3")
+                else if(selection.ToLower() == "a") //Add entry
                 {
                     Console.WriteLine("Lisää kangas: ");
                     SewingFabric sewingFabric = new SewingFabric();
                     Console.WriteLine();
                 }
-                else if(selection == "4")
+                else if(selection.ToLower() == "d") //Delete entry
                 {
                     Console.WriteLine();
-                    Database.RemoveTableData("sewingFabrics");
+                    Database.RemoveTableData(tableName);
                     Console.WriteLine();
+                }
+                else if(selection.ToLower() == "x") //Back to previous
+                {
+                    break;
+                }
+            }
+        }
+
+        private static void SewingFabricsSelect()
+        {
+            while(true)
+            {
+                Console.WriteLine();
+                Console.WriteLine(MenuCommands.SelectSewingFabricTitle);
+                Console.WriteLine(MenuCommands.SelectSewingFabricLeotard);
+                Console.WriteLine(MenuCommands.SelectSewingFabricCotton);
+                Console.WriteLine(MenuCommands.BackToPrevious);
+
+                string selection = Console.ReadLine();
+
+                if(selection == "1") //Leotard
+                {
+                    SewingFabricsSubSelect("Trikoo");
+                    continue;
+                }
+                else if(selection == "2") //Cotton
+                {
+                    SewingFabricsSubSelect("Puuvilla");
+                    continue;
                 }
                 else if(selection.ToLower() == "x")
                 {
@@ -123,28 +196,35 @@ namespace HandicraftApp
 
             while(true)
             {
-                Console.WriteLine($"Alaluokat: {mainType}");
+                Console.WriteLine();
+                Console.WriteLine(MenuCommands.SelectSewingFabricSubTitle);
                 Console.WriteLine("1 - Yksiväriset");
                 Console.WriteLine("2 - Kuvioidut");
-                Console.WriteLine("X - Palaa takaisin");
+                Console.WriteLine(MenuCommands.BackToPrevious);
 
                 string selection = Console.ReadLine();
 
                 if(selection == "1")
                 {
                     subType = "Yksivärinen";
+                    Console.WriteLine();
                     GetSewingFabricData(mainType, subType);
                     continue;
                 }
                 else if(selection == "2")
                 {
                     subType = "Kuvioitu";
+                    Console.WriteLine();
                     GetSewingFabricData(mainType, subType);
                 }
                 else if(selection.ToLower() == "x")
                 {
-                    Console.WriteLine("Valintaa ei tunnistettu.");
                     break;
+                }
+                else
+                {
+                    Console.WriteLine("Valintaa ei tunnistettu.");
+                    continue;
                 }
             }
         }
