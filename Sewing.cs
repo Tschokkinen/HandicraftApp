@@ -137,9 +137,9 @@ namespace HandicraftApp
 
                 string selection = Console.ReadLine();
 
-                if(selection.ToLower() == "s") //Leotard
+                if(selection.ToLower() == "s") //Show sewing fabrics
                 {
-                    SewingFabricsSelect();
+                    SewingFabricsSelectFabricType();
                     continue;
                 }
                 else if(selection.ToLower() == "a") //Add entry
@@ -161,7 +161,7 @@ namespace HandicraftApp
             }
         }
 
-        private static void SewingFabricsSelect()
+        private static void SewingFabricsSelectFabricType()
         {
             while(true)
             {
@@ -175,12 +175,12 @@ namespace HandicraftApp
 
                 if(selection == "1") //Leotard
                 {
-                    SewingFabricsSubSelect("Trikoo");
+                    SewingFabricsSelectFabricSubType("Trikoo");
                     continue;
                 }
                 else if(selection == "2") //Cotton
                 {
-                    SewingFabricsSubSelect("Puuvilla");
+                    SewingFabricsSelectFabricSubType("Puuvilla");
                     continue;
                 }
                 else if(selection.ToLower() == "x")
@@ -190,7 +190,7 @@ namespace HandicraftApp
             }
         }
 
-        private static void SewingFabricsSubSelect(string mainType)
+        private static void SewingFabricsSelectFabricSubType(string mainType)
         {
             string subType;
 

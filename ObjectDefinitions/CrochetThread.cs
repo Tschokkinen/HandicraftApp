@@ -3,8 +3,8 @@ namespace HandicraftApp
 {
     public record CrochetThread : Identification
     {
-        private int size;
-        public int Size
+        private double size;
+        public double Size
         {
             get => size;
             set
@@ -54,7 +54,7 @@ namespace HandicraftApp
             //Get id.
             this.Id = CollectData.GenerateRandomId("crochetThreads");
             //Get size.
-            this.size = CollectData.AskForInt("Virkkuulangan koko: ");
+            this.size = CollectData.AskForDouble("Virkkuulangan koko: ");
             //Get material.
             this.material = CollectData.AskForString("Virkkuulangan materiaali: ");
             //Get colour. 

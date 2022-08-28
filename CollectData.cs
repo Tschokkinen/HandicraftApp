@@ -63,7 +63,7 @@ namespace HandicraftApp
             }
             else
             {
-                //Conver first letter of input to upper case.
+                //Convert first letter of input to upper case.
                 return char.ToUpper(input[0]) + input.Substring(1).ToLower();
             }
         }   

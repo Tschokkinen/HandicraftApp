@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7DY753mF3cYM6AQ2JyDbGNrYL//jafE5esJRAB7FR/FBUyATAVMBNqgCguFwDwsi0yj43drp8ZBbdX5957yXSA==",
+  "dgSpecHash": "n8d4vbmMGdszY1Rqjo6Ds5gbmiL7HGfQ00El9Yu+uihK8zpRiDKi4c3ZJAa4tI1Jl0SMAFjUiP5bmN4GUtWuxA==",
   "success": true,
-  "projectFilePath": "D:\\Ohjelmointi\\C-Sharp\\HandicraftApp\\HandicraftApp.csproj",
+  "projectFilePath": "D:\\Ohjelmointi\\C-Sharp\\Handicraft\\HandicraftApp\\HandicraftApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tscho\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\tscho\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

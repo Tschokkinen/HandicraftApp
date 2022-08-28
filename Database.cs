@@ -48,11 +48,11 @@ public class Database
                                     CreateTable(tableData, connection);
                                     break;
                                 case "crochetHooks": 
-                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, size INT, material VARCHAR(20))";
+                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, size REAL, material VARCHAR(20))";
                                     CreateTable(tableData, connection);
                                     break;
                                 case "crochetThreads": 
-                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, size INT, material VARCHAR(20), colour VARCHAR(20))";
+                                    tableData = $"CREATE TABLE {tableName} (id VARCHAR(20) PRIMARY KEY, size REAL, material VARCHAR(20), colour VARCHAR(20))";
                                     CreateTable(tableData, connection);
                                     break;
                                 case "misc": 
