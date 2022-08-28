@@ -9,7 +9,7 @@ namespace HandicraftApp
         //Used to get an int from user and to check if given value is int.
         public static int AskForInt (string question)
         {
-            int value; 
+            int value;
 
             while (true)
             {
@@ -18,7 +18,7 @@ namespace HandicraftApp
                 bool isNumber = int.TryParse(input, out value);
 
                 if (isNumber) //Check if user entered a number.
-               {
+                {
                     return value;
                 }
                 else
@@ -31,7 +31,7 @@ namespace HandicraftApp
         //Used to get a double from user and to check if given value is double.
         public static double AskForDouble (string question)
         {
-            double value; 
+            double value;
 
             while (true)
             {
